@@ -1,0 +1,58 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: cia_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dev_db
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: on-failure
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - cia_network
+
+  api:
+    build:
+      context: ./back_student
+    container_name: cia_api
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./back_student/.env
+    environment:
+      DB_HOST: db
+      DB_USERNAME: ${DB_USERNAME:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-root}
+      DB_DATABASE: ${DB_DATABASE:-dev_db}
+    depends_on:
+      - db
+    networks:
+      - cia_network
+
+  front:
+    build:
+      context: ./front_student
+      args:
+        - REACT_APP_API_URL=api:3000
+    container_name: cia_front
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
+    networks:
+      - cia_network
+
+volumes:
+  db_data:
+
+networks:
+  cia_network:
+    driver: bridge
