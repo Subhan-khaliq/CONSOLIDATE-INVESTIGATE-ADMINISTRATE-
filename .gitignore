@@ -1,1 +1,58 @@
+# OS
 .DS_Store
+Thumbs.db
+
+# Dependencies
+node_modules/
+
+# Build outputs
+build/
+dist/
+WebApp/front_student/build/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test coverage
+coverage/
+.nyc_output/
+coverage-final.json
+
+# TypeScript
+*.tsbuildinfo
+
+# Caches
+.cache/
+.parcel-cache/
+.eslintcache
+
+# IDE
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Runtime
+pids/
+*.pid
+*.seed
+*.pid.lock
+.node_repl_history
+
+# Yarn
+.pnp.*
+*.tgz
+
+# Docker (local overrides)
+docker-compose.override.yml
+.env.docker
