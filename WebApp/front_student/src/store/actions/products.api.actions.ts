@@ -4,10 +4,10 @@ import { addNotification } from './notifications.action';
 
 const computeBaseURL = () => {
     const env = process.env.REACT_APP_API_URL || '';
-    if (env.startsWith('http') || env.includes('localhost') || env.includes('127.0.0.1')) {
-        return env.startsWith('http') ? env : 'http://' + env;
+    if (!env.trim()) {
+        return '/api';
     }
-    return '/api';
+    return env.startsWith('http') ? env : `https://${env}`;
 };
 
 const instance = axios.create({

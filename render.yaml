@@ -36,9 +36,6 @@ services:
     dockerfilePath: ./Dockerfile
     plan: starter
     envVars:
-      # Hostname only at build time; set https://cia-back.onrender.com in Dashboard for production.
+      # Set full backend URL in Dashboard, e.g. https://cia-back.onrender.com
       - key: REACT_APP_API_URL
-        fromService:
-          type: web
-          name: cia-back
-          property: host
+        sync: false

@@ -82,4 +82,10 @@ createConnection()
       logger.info(`Server started on port ${port}!`);
     });
   })
-  .catch(e => console.log(e));
+  .catch((e) => {
+    logger.error('Database connection failed', e);
+    console.error(
+      'FATAL: Cannot connect to MySQL. Verify DB_* env vars and Hostinger Remote MySQL allows Render’s IP.',
+    );
+    process.exit(1);
+  });

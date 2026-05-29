@@ -12,5 +12,11 @@ if [ "$WAIT_FOR_DB" = "true" ]; then
   done
 fi
 
-npm run migration:start || true
+# Never schema:drop on production/Render — use migrations only (Hostinger / external DB).
+if [ "$NODE_ENV" = "production" ] || [ "$RENDER" = "true" ]; then
+  npm run migration:run || echo "WARN: migration:run failed (check DB credentials and Hostinger Remote MySQL)"
+else
+  npm run migration:start || true
+fi
+
 exec node -r ts-node/register ./src/index.ts

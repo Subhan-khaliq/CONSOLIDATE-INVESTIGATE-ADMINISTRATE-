@@ -8,12 +8,11 @@ export const LOG_OUT: string = "LOG_OUT";
 
 const computeBaseURL = () => {
     const env = process.env.REACT_APP_API_URL || '';
-    // If env points to localhost or is an absolute URL, use it.
-    if (env.startsWith('http') || env.includes('localhost') || env.includes('127.0.0.1')) {
-        return env.startsWith('http') ? env : 'http://' + env;
+    if (!env.trim()) {
+        return '/api';
     }
-    // Default: use relative path so nginx can proxy /api -> backend
-    return '/api';
+    // Accept either full URL or host/domain and normalize to an absolute URL.
+    return env.startsWith('http') ? env : `https://${env}`;
 };
 
 const instance = axios.create({
