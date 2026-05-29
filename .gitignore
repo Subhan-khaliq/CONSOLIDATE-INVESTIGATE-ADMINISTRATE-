@@ -13,7 +13,7 @@ WebApp/front_student/build/
 # Environment and secrets
 .env
 .env.*
-!.env.example
+.env.example
 
 # Logs
 logs/
