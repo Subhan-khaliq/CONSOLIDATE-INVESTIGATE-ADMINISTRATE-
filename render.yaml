@@ -1,0 +1,46 @@
+# Render Blueprint — deploy from Dashboard: New > Blueprint > connect repo.
+# Render builds each service from its Dockerfile (not docker-compose.yml).
+
+services:
+  - type: web
+    name: cia-back
+    runtime: docker
+    rootDir: WebApp/back_student
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    healthCheckPath: /api-docs
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: BCRYPT_SALT_ROUNDS
+        value: "12"
+      # External MySQL (PlanetScale, Railway, Aiven, etc.) — set in Dashboard
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: "3306"
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_DATABASE
+        sync: false
+      # Comma-separated; include your cia-front URL after deploy, e.g. https://cia-front.onrender.com
+      - key: ALLOWED_ORIGINS
+        sync: false
+
+  - type: web
+    name: cia-front
+    runtime: docker
+    rootDir: WebApp/front_student
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    envVars:
+      # Hostname only at build time; set https://cia-back.onrender.com in Dashboard for production.
+      - key: REACT_APP_API_URL
+        fromService:
+          type: web
+          name: cia-back
+          property: host

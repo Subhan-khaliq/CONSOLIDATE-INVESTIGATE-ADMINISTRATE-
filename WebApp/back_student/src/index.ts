@@ -77,8 +77,9 @@ createConnection()
   app.use('/', routes);
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
     app.use(errorLogger);
-    app.listen(3000, async () => {
-      logger.info('Server started on port 3000!');
+    const port = parseInt(process.env.PORT || '3000', 10);
+    app.listen(port, () => {
+      logger.info(`Server started on port ${port}!`);
     });
   })
   .catch(e => console.log(e));
