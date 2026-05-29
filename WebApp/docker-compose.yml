@@ -32,10 +32,10 @@ services:
       - .env
     environment:
       DB_HOST: db
+      WAIT_FOR_DB: "true"
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: ${MYSQL_DATABASE}
-      DB_PORT: ${DB_PORT}
     depends_on:
       db:
         condition: service_healthy

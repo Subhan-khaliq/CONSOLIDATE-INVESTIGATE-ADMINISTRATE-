@@ -22,13 +22,14 @@ Remove any custom **Port** override (e.g. `8000`). Render sets `PORT` automatica
 
 ### Required environment variables
 
-Set these under **Environment** (use an external MySQL host — Render does not run the compose `db` service):
+**You must set `DB_HOST` in the Render Dashboard.** If it is missing, the app defaults to `db` (the docker-compose service name), which does not exist on Render and causes a long wait loop / deploy failure.
+
+Render does **not** run the MySQL container from `docker-compose.yml`. Use [Render PostgreSQL](https://render.com/docs/databases) only if you migrate the app; this project expects **external MySQL** (Railway, Aiven, PlanetScale, etc.).
 
 | Variable | Example |
 |----------|---------|
-| `NODE_ENV` | `production` |
-| `DB_HOST` | your MySQL hostname |
-| `DB_PORT` | `3306` |
+| `NODE_ENV` | `production` (recommended) |
+| `DB_HOST` | Hostinger MySQL hostname (**required** — not `db`) |
 | `DB_USERNAME` | your user |
 | `DB_PASSWORD` | your password |
 | `DB_DATABASE` | your database name |

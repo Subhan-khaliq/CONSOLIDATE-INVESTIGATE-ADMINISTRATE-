@@ -19,8 +19,6 @@ services:
       # External MySQL (PlanetScale, Railway, Aiven, etc.) — set in Dashboard
       - key: DB_HOST
         sync: false
-      - key: DB_PORT
-        value: "3306"
       - key: DB_USERNAME
         sync: false
       - key: DB_PASSWORD
