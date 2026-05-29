@@ -8,8 +8,8 @@ RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Install dependencies first to take advantage of Docker layer caching
-COPY package.json yarn.lock ./
-RUN yarn install
+COPY package.json package-lock.json ./
+RUN npm install
 
 # Copy application sources
 # Copy everything including a .env if provided by the build context
@@ -18,5 +18,5 @@ COPY . .
 
 EXPOSE 3000
 
-# Run migrations then start the app. If you prefer to run migrations manually, replace with ["yarn","start"]
-CMD ["sh", "-c", "until nc -z ${DB_HOST:-db} 3306; do echo 'Waiting for DB at ' ${DB_HOST:-db} ':3306' ; sleep 1; done; yarn migration:start || true && node -r ts-node/register ./src/index.ts"]
+# Run migrations then start the app. If you prefer to run migrations manually, replace with ["npm","start"]
+CMD ["sh", "-c", "until nc -z ${DB_HOST:-db} 3306; do echo 'Waiting for DB at ' ${DB_HOST:-db} ':3306' ; sleep 1; done; npm run migration:start || true && node -r ts-node/register ./src/index.ts"]

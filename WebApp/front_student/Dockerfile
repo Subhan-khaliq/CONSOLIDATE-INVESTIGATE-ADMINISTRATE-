@@ -1,11 +1,11 @@
 FROM node:18-alpine AS builder
 WORKDIR /app
-COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile
+COPY package.json package-lock.json ./
+RUN npm install
 COPY . .
 ARG REACT_APP_API_URL
 ENV REACT_APP_API_URL=${REACT_APP_API_URL}
-RUN yarn build
+RUN npm run build
 # RUN ls -lR
 
 FROM nginx
